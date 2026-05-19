@@ -24,7 +24,7 @@ export default function Home() {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/leads?select=*&limit=1000`,
+        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/leads?select=*&limit=1000&apikey=sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V`,
         {
           headers: {
             apikey: "sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
@@ -36,7 +36,7 @@ export default function Home() {
       setLeads(Array.isArray(leadsData) ? leadsData : []);
 
       const res2 = await fetch(
-        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/users?select=*`,
+        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/users?select=*&apikey=sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V`,
         {
           headers: {
             apikey: "sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
