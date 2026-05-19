@@ -1,6 +1,7 @@
 "use client";
 
 export default function Dashboard({ leads, users, dark }: any) {
+console.log('Leads received:', leads.length, leads[0]);
   const total = leads.length;
   const contacted = leads.filter((l: any) => l.status !== "new").length;
   const demos = leads.filter((l: any) => l.status === "demo").length;
