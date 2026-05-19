@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import Sidebar from "@/components/Sidebar";
 import Dashboard from "@/components/Dashboard";
 import Leads from "@/components/Leads";
@@ -19,18 +18,37 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
-    const saved = localStorage.getItem("portus-theme");
-    if (saved === "dark") setDark(true);
   }, []);
 
   async function fetchData() {
     setLoading(true);
-    const [leadsRes, usersRes] = await Promise.all([
-      supabase.from("leads").select("*").limit(100),
-      supabase.from("users").select("*"),
-    ]);
-    if (leadsRes.data) setLeads(leadsRes.data as any);
-    if (usersRes.data) setUsers(usersRes.data as any);
+    try {
+      const res = await fetch(
+        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/leads?select=*&limit=1000`,
+        {
+          headers: {
+            apikey: "sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
+            Authorization: "Bearer sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
+          },
+        }
+      );
+      const leadsData = await res.json();
+      setLeads(Array.isArray(leadsData) ? leadsData : []);
+
+      const res2 = await fetch(
+        `https://zapybyfohfjytyjzkhrn.supabase.co/rest/v1/users?select=*`,
+        {
+          headers: {
+            apikey: "sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
+            Authorization: "Bearer sb_publishable_8sIG7KArM9GaX63hsxdcFg_8e5B5w2V",
+          },
+        }
+      );
+      const usersData = await res2.json();
+      setUsers(Array.isArray(usersData) ? usersData : []);
+    } catch (e) {
+      console.error(e);
+    }
     setLoading(false);
   }
 
