@@ -26,7 +26,7 @@ export default function Home() {
   async function fetchData() {
     setLoading(true);
     const [leadsRes, usersRes] = await Promise.all([
-      supabase.from("leads").select("*").order("created_at", { ascending: false }),
+      supabase.from("leads").select("*").limit(100),
       supabase.from("users").select("*"),
     ]);
     if (leadsRes.data) setLeads(leadsRes.data as any);
